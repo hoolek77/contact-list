@@ -12,7 +12,7 @@ Definition of done:
 6. Selected contacts have outline around them.
 7. Selected card can be deselected.
 8. Selected contacts are displayed at the top of the list.
-9. List does not have performance issues when selecting/deselecting/scrolling cards.
+9. List performance is optimized when selecting/deselecting/scrolling cards.
 
 Doing this task in typescript is preferred. However, if you do not feel comfortable with typescript, please change file extension to js.
 
