@@ -19,7 +19,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "eslint:check": "eslint . --ext .cjs,.ts,.tsx,.astro --ignore-path .gitignore",
+    "eslint:write": "npm run eslint:check -- --fix",
+    "prettier:check": "prettier --check --ignore-path .gitignore .",
+    "prettier:write": "prettier --write --ignore-path .gitignore .",
+    "ts:check": "tsc --jsx preserve --skipLibCheck"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,6 +42,14 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^6.2.1"
+    "@typescript-eslint/eslint-plugin": "^5.47.1",
+    "@typescript-eslint/parser": "^5.47.1",
+    "concurrently": "^6.2.1",
+    "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "prettier": "^2.8.1"
   }
 }

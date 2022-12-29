@@ -1,10 +1,11 @@
-import React from "react";
-import apiData from "./api";
-import PersonInfo from "./PersonInfo";
+import React from 'react'
+
+import apiData from './api'
+import PersonInfo from './PersonInfo'
 
 function App() {
-  const [data, setData] = React.useState([]);
-  const [selected, setSelected] = React.useState([]);
+  const [data, setData] = React.useState([])
+  const [selected, setSelected] = React.useState([])
 
   //  TODO fetch contacts using apiData function, handle loading and error states
 
@@ -12,13 +13,12 @@ function App() {
     <div className="App">
       <div className="selected">Selected contacts: {selected.length}</div>
       <div className="list">
-        {data.map((personInfo) => (
-          // @ts-ignore
+        {/* {data.map((personInfo) => (
           <PersonInfo key={personInfo.id} data={personInfo} />
-        ))}
+        ))} */}
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
