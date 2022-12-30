@@ -1,4 +1,5 @@
 import mockData from './mockData.json'
+import type { Person } from './types/common'
 
 let cursor = -1
 const size = 10
@@ -7,7 +8,7 @@ function delay(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), time))
 }
 
-export default async function apiData() {
+export default async function apiData(): Promise<Person[]> {
   await delay(1000)
 
   if (Math.random() > 0.7) {
