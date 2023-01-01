@@ -1,3 +1,5 @@
+import { scrollbarStyles } from './scrollbarStyles'
+
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
@@ -8,12 +10,13 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    margin: 0;
     font-family: 'Roboto', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: #f4f4f4;
   }
+
+  ${scrollbarStyles}
 `
 
 export default GlobalStyles
