@@ -1,57 +1,75 @@
-import type { CSSProperties } from 'react'
+import { memo } from 'react'
 
 import type { Person } from '../types/common'
 
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 type Props = {
-  data: Omit<Person, 'id'>
-  isLast?: boolean
-  style?: CSSProperties
+  data: Person
+  onSelect: (person: Person) => void
+  selected: boolean
 }
 
-function PersonInfo({
-  data: { firstNameLastName, emailAddress, jobTitle },
-  isLast = false,
-  style,
-}: Props) {
+function PersonInfo({ data, onSelect, selected }: Props) {
+  const { firstNameLastName, emailAddress, jobTitle } = data
+
+  // eslint-disable-next-line no-console
+  console.log('rendered')
+
   return (
-    <PersonInfoGapWrapper style={style} isLast={isLast}>
-      <PersonInfoWrapper>
+    <PersonInfoWrapper>
+      <PersonInfoButtonWrapper
+        onClick={() => onSelect(data)}
+        selected={selected}
+      >
         <PersonName>{firstNameLastName}</PersonName>
         <PersonJobTitle>{jobTitle}</PersonJobTitle>
         <PersonEmail>{emailAddress}</PersonEmail>
-      </PersonInfoWrapper>
-    </PersonInfoGapWrapper>
+      </PersonInfoButtonWrapper>
+    </PersonInfoWrapper>
   )
 }
 
-export default PersonInfo
-
-const PersonInfoGapWrapper = styled.div<{ isLast: boolean }>`
-  padding-bottom: ${({ isLast }) => (isLast ? '0' : '16px')};
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-`
+export default memo(PersonInfo)
 
 const PersonInfoWrapper = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+`
+
+const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   padding: 32px;
   width: 448px;
   height: 172px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
-  margin: 10px 0;
+  margin: 8px 0;
   background: #fff;
   cursor: pointer;
-  margin-bottom: 16px;
+  outline: none;
+  border: 2px solid white;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     padding: 30px;
     border: 2px solid pink;
   }
+
+  &:focus-visible {
+    box-shadow: 0px 0px 0px 2.5px #bfbeff;
+  }
+
+  ${({ selected }) =>
+    selected &&
+    css`
+      outline: 2px solid #4f46e5;
+    `}
 `
 
 const PersonName = styled.div`

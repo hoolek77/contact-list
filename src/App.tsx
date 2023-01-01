@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
-import AutoSizer from 'react-virtualized-auto-sizer'
-import { FixedSizeList } from 'react-window'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useRef } from 'react'
+import { ViewportList } from 'react-viewport-list'
 
 import apiData from './api'
 import LoadMoreButton from './components/LoadMoreButton'
@@ -10,11 +10,25 @@ import type { Person } from './types/common'
 
 import styled from 'styled-components'
 
+const LOAD_MORE_BUTTON_KEY = 'load-more-button'
+
+const isPerson = (item: unknown): item is Person =>
+  typeof item === 'object' && item !== null && 'id' in item
+
 function App() {
   const [data, setData] = useState<Person[]>([])
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState<Person[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const viewportRef = useRef<HTMLDivElement | null>(null)
+
+  const orderedData = useMemo(() => {
+    const dataWithoutSelected = data.filter(
+      (person) => !selected.find((p) => p.id === person.id)
+    )
+
+    return [...selected, ...dataWithoutSelected, LOAD_MORE_BUTTON_KEY]
+  }, [data, selected])
 
   const fetchData = async () => {
     try {
@@ -33,6 +47,18 @@ function App() {
     }
   }
 
+  const handleSelect = useCallback((person: Person) => {
+    setSelected((prev) => {
+      const isSelected = prev.find((p) => p.id === person.id)
+
+      if (isSelected) {
+        return prev.filter((p) => p.id !== person.id)
+      }
+
+      return [person, ...prev]
+    })
+  }, [])
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -42,33 +68,34 @@ function App() {
       <GlobalStyles />
       <AppWrapper>
         <SelectedCounter>Selected contacts: {selected.length} </SelectedCounter>
-        <ListWrapper>
-          <AutoSizer>
-            {({ height, width }) => (
-              <FixedSizeList
-                height={height}
-                width={width}
-                itemCount={data.length}
-                itemSize={172 + 16}
-                overscanCount={3}
-              >
-                {({ index, style }) => {
-                  const person = data[index]
-
-                  return (
-                    <PersonInfo
-                      key={person.id}
-                      data={person}
-                      style={style}
-                      isLast={index === data.length}
-                    />
-                  )
-                }}
-              </FixedSizeList>
-            )}
-          </AutoSizer>
+        <ListWrapper ref={viewportRef}>
+          <ViewportList
+            viewportRef={viewportRef}
+            items={orderedData}
+            itemMinSize={172}
+            margin={16}
+            overscan={3}
+          >
+            {(item) =>
+              item !== LOAD_MORE_BUTTON_KEY && isPerson(item) ? (
+                <PersonInfo
+                  key={item.id}
+                  data={item}
+                  onSelect={handleSelect}
+                  selected={!!selected.find((p) => p.id === item.id)}
+                />
+              ) : (
+                <LoadMoreButtonWrapper>
+                  <LoadMoreButton
+                    onClick={fetchData}
+                    loading={isLoading}
+                    error={error}
+                  />
+                </LoadMoreButtonWrapper>
+              )
+            }
+          </ViewportList>
         </ListWrapper>
-        <LoadMoreButton onClick={fetchData} loading={isLoading} error={error} />
       </AppWrapper>
     </>
   )
@@ -83,7 +110,7 @@ const AppWrapper = styled.div`
   align-items: center;
   gap: 32px;
   min-height: 100vh;
-  padding: 20px 0;
+  padding-top: 20px;
 `
 
 const SelectedCounter = styled.div`
@@ -94,7 +121,17 @@ const SelectedCounter = styled.div`
 `
 
 const ListWrapper = styled.div`
-  // compensate for the height of the header and the load more button and the gap between them
-  height: calc(100vh - 30px - 64px - 40px - 48px);
+  // compensate for the height of the header, padding and margins of the list
+  height: calc(100vh - 30px - 32px - 20px);
   width: 100%;
+  padding-bottom: 20px;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: auto;
+`
+
+const LoadMoreButtonWrapper = styled.div`
+  margin-top: 8px;
 `
