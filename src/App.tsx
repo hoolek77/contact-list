@@ -17,6 +17,7 @@ function App() {
   const [isFetchingMore, setIsFetchingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const viewportRef = useRef<HTMLDivElement | null>(null)
+  const didInitialLoadFailed = !!error && data.length === 0
 
   const orderedData = useMemo(() => {
     const dataWithoutSelected = data.filter(
@@ -92,7 +93,7 @@ function App() {
               </ViewportList>
               <LoadMoreButtonWrapper>
                 <LoadMoreButton
-                  onClick={() => fetchData()}
+                  onClick={() => fetchData(didInitialLoadFailed)}
                   loading={isFetchingMore}
                   error={error}
                 />
