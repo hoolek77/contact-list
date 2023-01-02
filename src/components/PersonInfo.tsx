@@ -12,10 +12,8 @@ type Props = {
 
 function PersonInfo({ data, onSelect, selected }: Props) {
   const { firstNameLastName, emailAddress, jobTitle } = data
-  const initials = firstNameLastName
-    .split(' ')
-    .map(([firstCharacter]) => firstCharacter)
-    .join('')
+  const [firstName, lastName] = firstNameLastName.split(' ')
+  const initials = `${firstName[0]}${lastName[0]}`
 
   // eslint-disable-next-line no-console
   console.log('rendered')
