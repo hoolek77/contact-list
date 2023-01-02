@@ -1,19 +1,13 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ViewportList } from 'react-viewport-list'
 
-import apiData from './api'
-import LoadMoreButton from './components/LoadMoreButton'
-import PersonInfo from './components/PersonInfo'
-import GlobalStyles from './styles/Global'
-import type { Person } from './types/common'
+import apiData from '@/api'
+import LoadMoreButton from '@/components/LoadMoreButton'
+import PersonInfo from '@/components/PersonInfo'
+import GlobalStyles from '@/styles/Global'
+import type { Person } from '@/types/common'
 
 import styled from 'styled-components'
-
-const LOAD_MORE_BUTTON_KEY = 'load-more-button'
-
-const isPerson = (item: unknown): item is Person =>
-  typeof item === 'object' && item !== null && 'id' in item
 
 function App() {
   const [data, setData] = useState<Person[]>([])
@@ -27,7 +21,7 @@ function App() {
       (person) => !selected.find((p) => p.id === person.id)
     )
 
-    return [...selected, ...dataWithoutSelected, LOAD_MORE_BUTTON_KEY]
+    return [...selected, ...dataWithoutSelected]
   }, [data, selected])
 
   const fetchData = async () => {
@@ -76,25 +70,22 @@ function App() {
             margin={16}
             overscan={3}
           >
-            {(item) =>
-              item !== LOAD_MORE_BUTTON_KEY && isPerson(item) ? (
-                <PersonInfo
-                  key={item.id}
-                  data={item}
-                  onSelect={handleSelect}
-                  selected={!!selected.find((p) => p.id === item.id)}
-                />
-              ) : (
-                <LoadMoreButtonWrapper>
-                  <LoadMoreButton
-                    onClick={fetchData}
-                    loading={isLoading}
-                    error={error}
-                  />
-                </LoadMoreButtonWrapper>
-              )
-            }
+            {(item) => (
+              <PersonInfo
+                key={item.id}
+                data={item}
+                onSelect={handleSelect}
+                selected={!!selected.find((p) => p.id === item.id)}
+              />
+            )}
           </ViewportList>
+          <LoadMoreButtonWrapper>
+            <LoadMoreButton
+              onClick={fetchData}
+              loading={isLoading}
+              error={error}
+            />
+          </LoadMoreButtonWrapper>
         </ListWrapper>
       </AppWrapper>
     </>
