@@ -1,5 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import Loader from './Loader'
+
 import styled, { css } from 'styled-components'
 
 interface Props
@@ -16,7 +18,11 @@ function LoadMoreButton({ onClick, loading, disabled, error }: Props) {
 
   return (
     <Button onClick={onClick} disabled={isDisabled} error={hasError}>
-      {loading ? 'Loading...' : errorMessage || 'Load More'}
+      {loading ? (
+        <Loader size={32} primaryColor={hasError ? '#fbc1cc' : '#333333'} />
+      ) : (
+        errorMessage || 'Load More'
+      )}
     </Button>
   )
 }
@@ -24,7 +30,12 @@ function LoadMoreButton({ onClick, loading, disabled, error }: Props) {
 export default LoadMoreButton
 
 const Button = styled.button<{ error?: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: fit-content;
+  min-width: 112px;
   height: 48px;
   border: none;
   border-radius: 4px;

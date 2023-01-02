@@ -2,17 +2,19 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { ViewportList } from 'react-viewport-list'
 
 import apiData from '@/api'
+import Loader from '@/components/Loader'
 import LoadMoreButton from '@/components/LoadMoreButton'
 import PersonInfo from '@/components/PersonInfo'
 import GlobalStyles from '@/styles/Global'
 import type { Person } from '@/types/common'
 
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 function App() {
   const [data, setData] = useState<Person[]>([])
   const [selected, setSelected] = useState<Person[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isFetchingMore, setIsFetchingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const viewportRef = useRef<HTMLDivElement | null>(null)
 
@@ -24,9 +26,13 @@ function App() {
     return [...selected, ...dataWithoutSelected]
   }, [data, selected])
 
-  const fetchData = async () => {
+  const fetchData = async (isInitialLoad = false) => {
     try {
-      setIsLoading(true)
+      if (isInitialLoad) {
+        setIsLoading(true)
+      }
+
+      setIsFetchingMore(true)
 
       const data = await apiData()
 
@@ -38,6 +44,7 @@ function App() {
       }
     } finally {
       setIsLoading(false)
+      setIsFetchingMore(false)
     }
   }
 
@@ -54,7 +61,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    fetchData()
+    fetchData(true)
   }, [])
 
   return (
@@ -62,30 +69,36 @@ function App() {
       <GlobalStyles />
       <AppWrapper>
         <SelectedCounter>Selected contacts: {selected.length} </SelectedCounter>
-        <ListWrapper ref={viewportRef}>
-          <ViewportList
-            viewportRef={viewportRef}
-            items={orderedData}
-            itemMinSize={172}
-            margin={16}
-            overscan={3}
-          >
-            {(item) => (
-              <PersonInfo
-                key={item.id}
-                data={item}
-                onSelect={handleSelect}
-                selected={!!selected.find((p) => p.id === item.id)}
-              />
-            )}
-          </ViewportList>
-          <LoadMoreButtonWrapper>
-            <LoadMoreButton
-              onClick={fetchData}
-              loading={isLoading}
-              error={error}
-            />
-          </LoadMoreButtonWrapper>
+        <ListWrapper ref={viewportRef} isLoading={isLoading}>
+          {isLoading ? (
+            <Loader size={64} secondaryColor="#fff" />
+          ) : (
+            <>
+              <ViewportList
+                viewportRef={viewportRef}
+                items={orderedData}
+                itemMinSize={172}
+                margin={16}
+                overscan={3}
+              >
+                {(item) => (
+                  <PersonInfo
+                    key={item.id}
+                    data={item}
+                    onSelect={handleSelect}
+                    selected={!!selected.find((p) => p.id === item.id)}
+                  />
+                )}
+              </ViewportList>
+              <LoadMoreButtonWrapper>
+                <LoadMoreButton
+                  onClick={() => fetchData()}
+                  loading={isFetchingMore}
+                  error={error}
+                />
+              </LoadMoreButtonWrapper>
+            </>
+          )}
         </ListWrapper>
       </AppWrapper>
     </>
@@ -111,7 +124,7 @@ const SelectedCounter = styled.h1`
   height: 30px;
 `
 
-const ListWrapper = styled.div`
+const ListWrapper = styled.div<{ isLoading: boolean }>`
   // compensate for the height of the header, padding and margins of the list
   height: calc(100vh - 30px - 32px - 20px);
   width: 100%;
@@ -121,8 +134,17 @@ const ListWrapper = styled.div`
   flex-direction: column;
   overflow-x: hidden;
   overflow-y: auto;
+
+  ${({ isLoading }) =>
+    isLoading &&
+    css`
+      justify-content: center;
+      align-items: center;
+    `}
 `
 
 const LoadMoreButtonWrapper = styled.div`
   margin-top: 8px;
+  display: flex;
+  justify-content: center;
 `

@@ -22,13 +22,11 @@ describe('App', () => {
 
     expect(selectedContacts).toHaveTextContent('Selected contacts: 0')
 
-    const loadMoreButton = screen.queryByText(/Loading/i)
+    const loader = screen.queryByLabelText(/Loading/i)
 
-    expect(loadMoreButton).toBeInTheDocument()
+    expect(loader).toBeInTheDocument()
 
-    await waitForWithApiDelay(() =>
-      expect(loadMoreButton).not.toHaveTextContent(/Loading/i)
-    )
+    await waitForWithApiDelay(() => expect(loader).not.toBeInTheDocument())
 
     const listItems = screen.getAllByRole('listitem')
 
@@ -39,13 +37,11 @@ describe('App', () => {
     mockResponse('error')
     render(<App />)
 
-    const loadMoreButton = screen.queryByText(/Loading/i)
+    const loader = screen.queryByLabelText(/Loading/i)
 
-    expect(loadMoreButton).toBeInTheDocument()
+    expect(loader).toBeInTheDocument()
 
-    await waitForWithApiDelay(() =>
-      expect(loadMoreButton).not.toHaveTextContent(/Loading/i)
-    )
+    await waitForWithApiDelay(() => expect(loader).not.toBeInTheDocument())
 
     const errorMessage = screen.getByText(/Something went wrong/i)
 
@@ -56,13 +52,11 @@ describe('App', () => {
     mockResponse('success')
     render(<App />)
 
-    const loadMoreButton = screen.queryByText(/Loading/i)
+    const loader = screen.queryByLabelText(/Loading/i)
 
-    expect(loadMoreButton).toBeInTheDocument()
+    expect(loader).toBeInTheDocument()
 
-    await waitForWithApiDelay(() =>
-      expect(loadMoreButton).not.toHaveTextContent(/Loading/i)
-    )
+    await waitForWithApiDelay(() => expect(loader).not.toBeInTheDocument())
 
     const [firstItem, secondItem] = screen.getAllByRole('button')
 
@@ -82,13 +76,11 @@ describe('App', () => {
     mockResponse('success')
     render(<App />)
 
-    const loadMoreButton = screen.queryByText(/Loading/i)
+    const loader = screen.queryByLabelText(/Loading/i)
 
-    expect(loadMoreButton).toBeInTheDocument()
+    expect(loader).toBeInTheDocument()
 
-    await waitForWithApiDelay(() =>
-      expect(loadMoreButton).not.toHaveTextContent(/Loading/i)
-    )
+    await waitForWithApiDelay(() => expect(loader).not.toBeInTheDocument())
 
     const [initialFirstItem, initialSecondItem] = screen.getAllByRole(
       'heading',
