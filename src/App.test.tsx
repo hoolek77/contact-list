@@ -72,7 +72,6 @@ describe('App', () => {
   })
 
   test('Selected contact should always be appended to the top of the list', async () => {
-    vi.resetModules()
     mockResponse('success')
     render(<App />)
 

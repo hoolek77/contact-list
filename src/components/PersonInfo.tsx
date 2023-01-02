@@ -12,6 +12,10 @@ type Props = {
 
 function PersonInfo({ data, onSelect, selected }: Props) {
   const { firstNameLastName, emailAddress, jobTitle } = data
+  const initials = firstNameLastName
+    .split(' ')
+    .map(([firstCharacter]) => firstCharacter)
+    .join('')
 
   // eslint-disable-next-line no-console
   console.log('rendered')
@@ -22,8 +26,13 @@ function PersonInfo({ data, onSelect, selected }: Props) {
         onClick={() => onSelect(data)}
         selected={selected}
       >
-        <PersonName>{firstNameLastName}</PersonName>
-        <PersonJobTitle>{jobTitle}</PersonJobTitle>
+        <PersonInfoDetailsWithAvatarWrapper>
+          <PersonInfoAvatar>{initials}</PersonInfoAvatar>
+          <PersonInfoDetailsWrapper>
+            <PersonName>{firstNameLastName}</PersonName>
+            <PersonJobTitle>{jobTitle}</PersonJobTitle>
+          </PersonInfoDetailsWrapper>
+        </PersonInfoDetailsWithAvatarWrapper>
         <PersonEmail>{emailAddress}</PersonEmail>
       </PersonInfoButtonWrapper>
     </PersonInfoWrapper>
@@ -40,16 +49,38 @@ const PersonInfoWrapper = styled.div`
   gap: 16px;
 `
 
-const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
+const PersonInfoAvatar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 100%;
+  border: 1px solid #666666;
+  font-size: 20px;
+`
+
+const PersonInfoDetailsWithAvatarWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+`
+
+const PersonInfoDetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
+  display: flex;
+  justify-content: center;
   flex-direction: column;
   padding: 32px;
   width: 448px;
   height: 172px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
   margin: 8px 0;
+  gap: 16px;
   background: #fff;
   cursor: pointer;
   outline: none;
@@ -57,7 +88,6 @@ const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    padding: 30px;
     border: 2px solid pink;
   }
 
@@ -73,20 +103,21 @@ const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
 `
 
 const PersonName = styled.h2`
-  padding: 0 0 10px;
   color: #333333;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 700;
+  text-align: start;
 `
 
 const PersonJobTitle = styled.div`
-  padding: 0 0 20px;
   color: #e74c3c;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
+  text-align: start;
 `
 
 const PersonEmail = styled.div`
+  align-self: center;
   color: #666666;
   font-size: 14px;
   line-height: 1.8em;
