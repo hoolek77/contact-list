@@ -17,7 +17,7 @@ function PersonInfo({ data, onSelect, selected }: Props) {
   console.log('rendered')
 
   return (
-    <PersonInfoWrapper>
+    <PersonInfoWrapper role="listitem">
       <PersonInfoButtonWrapper
         onClick={() => onSelect(data)}
         selected={selected}
@@ -72,7 +72,7 @@ const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
     `}
 `
 
-const PersonName = styled.div`
+const PersonName = styled.h2`
   padding: 0 0 10px;
   color: #333333;
   font-size: 26px;

@@ -2,14 +2,15 @@ import mockData from './mockData.json'
 import type { Person } from './types/common'
 
 let cursor = -1
-const size = 10
+export const PAGE_SIZE = 10
+export const DELAY = 1000
 
 function delay(time: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), time))
 }
 
 export default async function apiData(): Promise<Person[]> {
-  await delay(1000)
+  await delay(DELAY)
 
   if (Math.random() > 0.7) {
     throw new Error('Something went wrong')
@@ -17,8 +18,8 @@ export default async function apiData(): Promise<Person[]> {
 
   cursor += 1
 
-  const start = cursor * size
-  const end = cursor * size + size
+  const start = cursor * PAGE_SIZE
+  const end = cursor * PAGE_SIZE + PAGE_SIZE
 
   return mockData.slice(start, end)
 }

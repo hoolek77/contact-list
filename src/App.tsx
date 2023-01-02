@@ -104,7 +104,7 @@ const AppWrapper = styled.div`
   padding-top: 20px;
 `
 
-const SelectedCounter = styled.div`
+const SelectedCounter = styled.h1`
   color: #333333;
   font-size: 26px;
   font-weight: 700;
