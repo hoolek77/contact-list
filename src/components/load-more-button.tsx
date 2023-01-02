@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react';
 
-import Loader from './Loader';
+import Loader from './loader';
 
 import styled, { css } from 'styled-components';
 

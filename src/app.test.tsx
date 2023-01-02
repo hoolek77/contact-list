@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import { PAGE_SIZE } from './api';
-import App from './App';
+import App from './app';
 import { ViewportListMock } from './tests/mocks';
 import { mockResponse, waitForWithApiDelay } from './tests/test-utils';
 

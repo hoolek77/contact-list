@@ -2,10 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ViewportList } from 'react-viewport-list';
 
 import apiData from '@/api';
-import Loader from '@/components/Loader';
-import LoadMoreButton from '@/components/LoadMoreButton';
-import PersonInfo from '@/components/PersonInfo';
-import GlobalStyles from '@/styles/Global';
+import LoadMoreButton from '@/components/load-more-button';
+import Loader from '@/components/loader';
+import PersonInfo from '@/components/person-info';
+import GlobalStyles from '@/styles/global';
 import type { Person } from '@/types/common';
 
 import styled, { css } from 'styled-components';
