@@ -21,6 +21,13 @@
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "noFallthroughCasesInSwitch": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/types/*": ["src/types/*"],
+    }
   },
   "include": ["src"],
 }

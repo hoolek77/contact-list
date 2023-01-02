@@ -11,6 +11,7 @@
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "@vitejs/plugin-react": "^3.0.0",
+    "eslint": "^8.31.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-viewport-list": "^6.3.0",

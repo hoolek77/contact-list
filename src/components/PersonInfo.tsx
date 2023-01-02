@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-import type { Person } from '../types/common'
+import type { Person } from '@/types/common'
 
 import styled, { css } from 'styled-components'
 
