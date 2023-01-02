@@ -1,22 +1,22 @@
-import { memo } from 'react'
+import { memo } from 'react';
 
-import type { Person } from '@/types/common'
+import type { Person } from '@/types/common';
 
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 type Props = {
-  data: Person
-  onSelect: (person: Person) => void
-  selected: boolean
-}
+  data: Person;
+  onSelect: (person: Person) => void;
+  selected: boolean;
+};
 
 function PersonInfo({ data, onSelect, selected }: Props) {
-  const { firstNameLastName, emailAddress, jobTitle } = data
-  const [firstName, lastName] = firstNameLastName.split(' ')
-  const initials = `${firstName[0]}${lastName[0]}`
+  const { firstNameLastName, emailAddress, jobTitle } = data;
+  const [firstName, lastName] = firstNameLastName.split(' ');
+  const initials = `${firstName[0]}${lastName[0]}`;
 
   // eslint-disable-next-line no-console
-  console.log('rendered')
+  console.log('rendered');
 
   return (
     <PersonInfoWrapper role="listitem">
@@ -34,10 +34,10 @@ function PersonInfo({ data, onSelect, selected }: Props) {
         <PersonEmail>{emailAddress}</PersonEmail>
       </PersonInfoButtonWrapper>
     </PersonInfoWrapper>
-  )
+  );
 }
 
-export default memo(PersonInfo)
+export default memo(PersonInfo);
 
 const PersonInfoWrapper = styled.div`
   display: flex;
@@ -45,7 +45,7 @@ const PersonInfoWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 16px;
-`
+`;
 
 const PersonInfoAvatar = styled.div`
   display: flex;
@@ -56,18 +56,18 @@ const PersonInfoAvatar = styled.div`
   border-radius: 100%;
   border: 1px solid #666666;
   font-size: 20px;
-`
+`;
 
 const PersonInfoDetailsWithAvatarWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   gap: 16px;
-`
+`;
 
 const PersonInfoDetailsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 
 const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
   display: flex;
@@ -98,25 +98,25 @@ const PersonInfoButtonWrapper = styled.button<{ selected: boolean }>`
     css`
       outline: 2px solid #4f46e5;
     `}
-`
+`;
 
 const PersonName = styled.h2`
   color: #333333;
   font-size: 22px;
   font-weight: 700;
   text-align: start;
-`
+`;
 
 const PersonJobTitle = styled.div`
   color: #e74c3c;
   font-size: 16px;
   font-weight: 400;
   text-align: start;
-`
+`;
 
 const PersonEmail = styled.div`
   align-self: center;
   color: #666666;
   font-size: 14px;
   line-height: 1.8em;
-`
+`;

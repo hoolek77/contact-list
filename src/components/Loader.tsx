@@ -1,11 +1,11 @@
-import { useMemo } from 'react'
+import { useMemo } from 'react';
 
-import styled from 'styled-components'
+import styled from 'styled-components';
 
 export interface LoaderProps {
-  size?: number
-  primaryColor?: string
-  secondaryColor?: string
+  size?: number;
+  primaryColor?: string;
+  secondaryColor?: string;
 }
 
 function Loader({
@@ -14,7 +14,7 @@ function Loader({
   secondaryColor = '#f4f4f4',
   ...props
 }: LoaderProps) {
-  const borderSize = useMemo(() => size / 8, [size])
+  const borderSize = useMemo(() => size / 8, [size]);
 
   return (
     <LoaderContainer
@@ -25,10 +25,10 @@ function Loader({
       secondaryColor={secondaryColor}
       {...props}
     />
-  )
+  );
 }
 
-export default Loader
+export default Loader;
 
 const LoaderContainer = styled.div<LoaderProps & { borderSize: number }>`
   border: ${({ borderSize }) => `${borderSize}px`} solid
@@ -50,4 +50,4 @@ const LoaderContainer = styled.div<LoaderProps & { borderSize: number }>`
       transform: rotate(360deg);
     }
   }
-`
+`;

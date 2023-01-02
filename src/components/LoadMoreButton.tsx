@@ -1,20 +1,20 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import type { ComponentPropsWithoutRef } from 'react';
 
-import Loader from './Loader'
+import Loader from './Loader';
 
-import styled, { css } from 'styled-components'
+import styled, { css } from 'styled-components';
 
 interface Props
   extends Pick<ComponentPropsWithoutRef<'button'>, 'onClick' | 'disabled'> {
-  loading: boolean
-  error: string | null
+  loading: boolean;
+  error: string | null;
 }
 
 function LoadMoreButton({ onClick, loading, disabled, error }: Props) {
-  const isDisabled = loading || disabled
-  const hasError = !!error
+  const isDisabled = loading || disabled;
+  const hasError = !!error;
 
-  const errorMessage = error ? `${error}. Click to try again.` : null
+  const errorMessage = error ? `${error}. Click to try again.` : null;
 
   return (
     <Button onClick={onClick} disabled={isDisabled} error={hasError}>
@@ -24,10 +24,10 @@ function LoadMoreButton({ onClick, loading, disabled, error }: Props) {
         errorMessage || 'Load More'
       )}
     </Button>
-  )
+  );
 }
 
-export default LoadMoreButton
+export default LoadMoreButton;
 
 const Button = styled.button<{ error?: boolean }>`
   display: flex;
@@ -91,4 +91,4 @@ const Button = styled.button<{ error?: boolean }>`
         box-shadow: 0px 0px 0px 2.5px #fbc1cc;
       }
     `}
-`
+`;

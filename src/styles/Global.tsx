@@ -1,6 +1,6 @@
-import { scrollbarStyles } from './scrollbarStyles'
+import { scrollbarStyles } from './scrollbarStyles';
 
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -17,6 +17,6 @@ const GlobalStyles = createGlobalStyle`
   }
 
   ${scrollbarStyles}
-`
+`;
 
-export default GlobalStyles
+export default GlobalStyles;

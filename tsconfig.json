@@ -26,8 +26,8 @@
       "@/*": ["src/*"],
       "@/components/*": ["src/components/*"],
       "@/styles/*": ["src/styles/*"],
-      "@/types/*": ["src/types/*"],
+      "@/types/*": ["src/types/*"]
     }
   },
-  "include": ["src", "src/setupTests.ts"],
+  "include": ["src", "src/setupTests.ts"]
 }
